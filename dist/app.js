@@ -37,7 +37,7 @@ function setupScene(){
  scene.environment=pmrem.fromScene(environment,.04).texture;scene.environmentIntensity=.55;environment.dispose();pmrem.dispose();
  camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,.25,2500);camera.position.set(0,0,30);
  controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.065;controls.enablePan=false;controls.minDistance=7;controls.maxDistance=160;controls.rotateSpeed=.4;controls.zoomSpeed=.65;
- controls.addEventListener('start',()=>{const wasPlaying=playing;setPlaying(false);autoCamera=false;if(wasPlaying&&progress<1)showResume(true);});
+ controls.addEventListener('start',()=>{setPlaying(false);autoCamera=false;});
  keyLight=new THREE.DirectionalLight(0xffeddb,3.2);keyLight.position.set(-20,12,30);keyLight.castShadow=true;keyLight.shadow.mapSize.set(2048,2048);
  Object.assign(keyLight.shadow.camera,{left:-20,right:20,top:20,bottom:-20,near:.1,far:110});keyLight.shadow.normalBias=.008;keyLight.shadow.bias=-.0001;
  scene.add(keyLight,new THREE.HemisphereLight(0x9eb5d7,0x131724,.4));
@@ -240,9 +240,9 @@ function updateUI(t){
  updateTimelineDate();
  const finished=progress>=1;$('journey-end').classList.toggle('visible',finished);$('journey-end').setAttribute('aria-hidden',String(!finished));
 }
-function go(p){progress=THREE.MathUtils.clamp(p,0,1);autoCamera=true;lastUI=0;updateWorld(timeAt(progress),.016,true);updateUI(timeAt(progress));if(progress>=1)setPlaying(false);}
-function showResume(on){const b=$('resume');if(on){b.hidden=false;requestAnimationFrame(()=>b.classList.add('visible'));}else{b.classList.remove('visible');b.hidden=true;}}
-function setPlaying(on){playing=on;showResume(false);if(on)autoCamera=true;$('play').setAttribute('aria-label',on?'Pause journey':'Play journey');$('play').title=on?'Pause':'Play';$('play-icon').innerHTML=on?'<path d="M5 4h3v12H5zM12 4h3v12h-3z"/>':'<path d="M7 4l9 6-9 6z"/>';}
+function go(p){progress=THREE.MathUtils.clamp(p,0,1);autoCamera=true;lastUI=0;updateWorld(timeAt(progress),.016,true);updateUI(timeAt(progress));if(progress>=1)setPlaying(false);else if(!playing)showResume(true);}
+function showResume(on){const b=$('resume');if(on&&$('loading'))return;if(on){if(!b.hidden)return;b.hidden=false;requestAnimationFrame(()=>b.classList.add('visible'));}else{b.classList.remove('visible');b.hidden=true;}}
+function setPlaying(on){playing=on;showResume(!on&&progress<1);if(on)autoCamera=true;$('play').setAttribute('aria-label',on?'Pause journey':'Play journey');$('play').title=on?'Pause':'Play';$('play-icon').innerHTML=on?'<path d="M5 4h3v12H5zM12 4h3v12h-3z"/>':'<path d="M7 4l9 6-9 6z"/>';}
 function closeSpeedMenu(restoreFocus=false){$('speed-menu').hidden=true;$('speed').setAttribute('aria-expanded','false');if(restoreFocus)$('speed').focus();}
 function setSpeed(value){
  if(![.25,.5,1,2,4].includes(value))return;
