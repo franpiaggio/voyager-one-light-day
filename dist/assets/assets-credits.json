@@ -1,0 +1,167 @@
+{
+  "textures": [
+    {
+      "file": "earth.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/8k_earth_daymap.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 4565076,
+      "width": 4096,
+      "height": 2048,
+      "bytes": 1053599,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "earth-night.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/8k_earth_nightmap.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 3144468,
+      "width": 4096,
+      "height": 2048,
+      "bytes": 619119,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "saturn-ring.png",
+      "source": "https://cloud.solarsystemscope.com/textures/download/2k_saturn_ring_alpha.png",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 12119,
+      "width": 2048,
+      "height": 125,
+      "bytes": 12119,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "venus.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 229696,
+      "width": 2048,
+      "height": 1024,
+      "bytes": 191206,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "mars.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/2k_mars.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 750547,
+      "width": 2048,
+      "height": 1024,
+      "bytes": 512230,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "jupiter.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/8k_jupiter.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 3080980,
+      "width": 4096,
+      "height": 2048,
+      "bytes": 1202895,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "saturn.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/8k_saturn.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 1098204,
+      "width": 4096,
+      "height": 2048,
+      "bytes": 492685,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "earth-clouds.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/8k_earth_clouds.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 11619184,
+      "width": 4096,
+      "height": 2048,
+      "bytes": 3180195,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "mercury.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/2k_mercury.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 872555,
+      "width": 2048,
+      "height": 1024,
+      "bytes": 749677,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "uranus.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/2k_uranus.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 77751,
+      "width": 2048,
+      "height": 1024,
+      "bytes": 37127,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "neptune.jpg",
+      "source": "https://cloud.solarsystemscope.com/textures/download/2k_neptune.jpg",
+      "author": "Solar System Scope / INOVE",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceBytes": 241580,
+      "width": 2048,
+      "height": 1024,
+      "bytes": 100533,
+      "changes": "Resized to web resolution where needed; JPEG optimized. No color alterations."
+    },
+    {
+      "file": "milky-way-eso-6k.jpg",
+      "source": "https://www.eso.org/public/images/eso0932a/",
+      "download": "https://cdn.eso.org/images/large/eso0932a.jpg",
+      "author": "ESO/S. Brunier",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "width": 6000,
+      "height": 3000,
+      "changes": "Original 6000 × 3000 photographic panorama. Up to 4K on mobile; hardware texture limits respected. Background-only one-pixel softening, highlight compression and central dimming at runtime. No generated nebula overlay."
+    }
+  ],
+  "voyager": {
+    "file": "voyager.glb",
+    "author": "NASA Visualization Technology Applications and Development (VTAD)",
+    "source": "https://science.nasa.gov/resource/voyager-3d-model/",
+    "download": "https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/v/Voyager.glb",
+    "usage": "NASA media usage guidelines; no NASA endorsement implied",
+    "usageUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+  },
+  "notes": "Planet textures are illustrative maps, not historical surface/cloud conditions. Solar System Scope enhances saturation and may fill unmapped areas with plausible terrain. Earth cloud layer is a representative map. Saturn ring UV u should map to radius.",
+  "fonts": {
+    "family": "Montserrat",
+    "author": "The Montserrat Project Authors",
+    "source": "https://fonts.google.com/specimen/Montserrat",
+    "license": "SIL Open Font License 1.1",
+    "licenseFile": "fonts/Montserrat-OFL.txt",
+    "weights": [
+      400,
+      500
+    ]
+  }
+}

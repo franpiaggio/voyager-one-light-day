@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import * as THREE from '../dist/vendor/three/build/three.module.js';
+const source=fs.readFileSync(new URL('../dist/cinema-post.js',import.meta.url),'utf8').replace("from 'three'",`from '${new URL('../dist/vendor/three/build/three.module.js',import.meta.url).href}'`);
+const {sunIsOccluded}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const camera=new THREE.Vector3(0,0,0),sun=new THREE.Vector3(0,0,-10);
+const body=(x,y,z,r,visible=true)=>({position:new THREE.Vector3(x,y,z),scale:new THREE.Vector3(r,r,r),visible});
+assert.equal(sunIsOccluded(camera,sun,[]),false);
+assert.equal(sunIsOccluded(camera,sun,[body(0,0,-5,1)]),true,'opaque planet blocks Sun');
+assert.equal(sunIsOccluded(camera,sun,[body(3,0,-5,1)]),false,'planet beside Sun does not block');
+assert.equal(sunIsOccluded(camera,sun,[body(0,0,-15,1)]),false,'planet beyond Sun does not block');
+assert.equal(sunIsOccluded(camera,sun,[body(0,0,5,1)]),false,'planet behind camera does not block');
+assert.equal(sunIsOccluded(camera,sun,[body(0,0,-5,1,false)]),false,'hidden render object does not cast optical flare occlusion');
+assert.equal(sunIsOccluded(camera,sun,[body(0,0,-9.95,.03)],.12),false,'body enclosed inside enlarged Sun does not hide its halo');
+console.log('PASS: solar halo occlusion for clear, covered, off-axis, behind-source, behind-camera and hidden bodies.');

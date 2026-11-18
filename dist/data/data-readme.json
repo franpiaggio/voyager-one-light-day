@@ -1,0 +1,46 @@
+{
+  "source": "NASA/JPL Horizons API",
+  "sourceURL": "https://ssd.jpl.nasa.gov/api/horizons.api",
+  "documentationURL": "https://ssd-api.jpl.nasa.gov/doc/horizons.html",
+  "retrievedUTC": "2026-11-17T17:05:59.686968+00:00",
+  "frame": "Heliocentric ecliptic J2000",
+  "center": "Sun (500@10)",
+  "timeScale": "UTC (Horizons UT after 1962)",
+  "positionUnits": "AU",
+  "velocityUnits": "AU/day",
+  "sampleColumns": [
+    "unixMilliseconds",
+    "x",
+    "y",
+    "z",
+    "vx",
+    "vy",
+    "vz"
+  ],
+  "sampleIntervalDays": 10,
+  "encounterIntervalHours": 1,
+  "startUTC": "1977-09-05 13:59:00Z",
+  "endUTC": "2026-11-18 10:16:07Z",
+  "launchUTC": "1977-09-05T12:56:00Z",
+  "voyagerCoverageNote": "Horizons Voyager 1 coverage begins 1977-09-05 13:58:36.2005 UTC; first sample 13:59 UTC. Launch before this time must be treated as an illustrative view.",
+  "interpolation": "Cubic Hermite between positions using the supplied AU/day velocities; Earth distance from the simultaneous interpolated heliocentric vectors.",
+  "AU_km": 149597870.7,
+  "speedOfLight_km_s": 299792.458,
+  "geometricNote": "Geometric coordinate separation, not a light-time-corrected radio tracking observation. Positions are reconstructed/predicted ephemerides, not live telemetry.",
+  "targetIDs": {
+    "mercury": "199",
+    "venus": "299",
+    "earth": "399",
+    "mars": "499",
+    "jupiter": "599",
+    "saturn": "699",
+    "uranus": "799",
+    "neptune": "899",
+    "voyager": "-31"
+  },
+  "milestone": {
+    "timeUTC": "2026-11-18T10:16:07Z",
+    "distanceKm": 25902068371.2,
+    "sourceURL": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/"
+  }
+}
