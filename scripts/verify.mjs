@@ -103,8 +103,8 @@ console.log(`PASS: ${earthDeparture.toFixed(1)}s with Earth departure before the
 for(const [event,body] of [[EVENTS[1],'jupiter'],[EVENTS[2],'saturn']]){
  const stats=departureStats[body];
  assert.ok(Math.abs(stats.approach/stats.oldApproach-.5)<.025,'zoom-in takes half the previous viewing duration');
- assert.ok(Math.abs(stats.pullback/stats.oldPullback-.5)<.025,'zoom-out takes half the previous viewing duration');
- console.log(`${body}: zoom-in ${stats.approach.toFixed(2)}s (was ${stats.oldApproach.toFixed(2)}s); zoom-out ${stats.pullback.toFixed(2)}s (was ${stats.oldPullback.toFixed(2)}s).`);
+ assert.ok(stats.oldPullback-stats.pullback<2,'the cruise after each pullback resumes quickly instead of lingering on a static map');
+ console.log(`${body}: zoom-in ${stats.approach.toFixed(2)}s (was ${stats.oldApproach.toFixed(2)}s); zoom-out ${stats.pullback.toFixed(2)}s, then ${(stats.oldPullback-stats.pullback).toFixed(2)}s until full cruise.`);
  assert.ok(stats.close>3.5,'keep the spacecraft close after periapsis');
  assert.ok(stats.pullback>3&&stats.pullback<3.4,'planet pullbacks must take half their former duration at 1×');
  assert.ok(stats.peakZoom<.28,`pullback is too abrupt: ${body} ${stats.peakZoom}`);

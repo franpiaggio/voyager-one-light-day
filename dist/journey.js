@@ -63,7 +63,7 @@ export function travelRate(p){
  for(const event of [EVENTS[1],EVENTS[2]]){
   const delta=p-event.p;
   // Keep the bend readable, then accelerate gradually through the pullback.
-  const encounterRate=delta<0?THREE.MathUtils.lerp(.95,12,smooth(-delta,.017,.048)):THREE.MathUtils.lerp(.95,12,smooth(delta,.035,.095));
+  const encounterRate=delta<0?THREE.MathUtils.lerp(.95,12,smooth(-delta,.017,.048)):THREE.MathUtils.lerp(.95,12,smooth(delta,.035,.062));
   rate=Math.min(rate,encounterRate);
  }
  return THREE.MathUtils.lerp(rate,1.2,smooth(p,.965,.999));
@@ -142,9 +142,10 @@ function viewingClock(start,end){
 }
 const openingFraction=viewingClock(.055,OPENING_END);
 // Halve only the zoom transitions in viewing time, preserving both close-shot boundaries.
+// The pullback spans only its own mission window, so the cruise that follows can speed up without shortening it.
 const quickApproach=clock=>p=>THREE.MathUtils.clamp(clock(p)*2-1,0,1);
 const quickDeparture=clock=>p=>THREE.MathUtils.clamp(clock(p)*2,0,1);
-const FLYBYS=[{event:EVENTS[1],body:'jupiter',extent:1},{event:EVENTS[2],body:'saturn',extent:2.32}].map(f=>({...f,start:f.event.p-.065,end:f.event.p+.095,approach:quickApproach(viewingClock(f.event.p-.065,f.event.p-.006)),departure:quickDeparture(viewingClock(f.event.p+.02,f.event.p+.095))}));
+const FLYBYS=[{event:EVENTS[1],body:'jupiter',extent:1},{event:EVENTS[2],body:'saturn',extent:2.32}].map(f=>({...f,start:f.event.p-.065,end:f.event.p+.095,approach:quickApproach(viewingClock(f.event.p-.065,f.event.p-.006)),departure:viewingClock(f.event.p+.02,f.event.p+.037)}));
 export function planetTitleAt(p,overview=false){
  const flyby=!overview&&FLYBYS.find(f=>p>f.start&&p<f.end);
  if(!flyby)return {name:'',opacity:0};
