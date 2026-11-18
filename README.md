@@ -6,6 +6,8 @@ It launched on 5 September 1977. It took forty-nine years to get that far.
 
 This project tells that story in under a minute.
 
+**[Watch it live →](https://franpiaggio.github.io/voyager-one-light-day/)**
+
 ## The idea
 
 Most mission visualizers show you everything at once: panels, labels, numbers, orbits. This one shows two things. A date, and a distance from Earth. Everything else is motion.
