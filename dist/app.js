@@ -1,3 +1,4 @@
+import { t as tr, LOCALE } from './i18n.js';
 import { setupPhotos } from './photos.js';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -16,8 +17,8 @@ import { AU, DAY, EVENTS, RADII, timeAt, sample, visual, poseAt, cameraDistance,
 
 const $=id=>document.getElementById(id), mobile=()=>innerWidth<701;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const dateFormat=new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});
-const number=new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
+const dateFormat=new Intl.DateTimeFormat(LOCALE,{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});
+const number=new Intl.NumberFormat(LOCALE,{maximumFractionDigits:0});
 const textureLoader=new THREE.TextureLoader(),cache={},bodies={},positions={},orbits=[],localArcs={};
 const minimumRadius={sun:.065,mercury:.018,venus:.022,earth:.032,mars:.02,jupiter:.05,saturn:.045,uranus:.028,neptune:.028};
 let photos;
@@ -174,7 +175,7 @@ function updateWorld(t,dt,snap=false){
  for(const key of Object.keys(data.bodies))positions[key]=visual(sample(data,key,t));positions.sun=zero;
  pose=poseAt(progress,positions,overview,camera.aspect);encounter=encounterAt(progress);origin.copy(pose.focus);const scale=WORLD_DISTANCE/pose.distance;
  const title=planetTitleAt(progress,overview),heading=$('planet-title');
- if(heading.textContent!==title.name)heading.textContent=title.name;
+ if(heading.textContent!==tr(title.name))heading.textContent=tr(title.name);
  heading.hidden=title.opacity<=0;heading.style.opacity=title.opacity;
  for(const [key,object] of Object.entries(bodies)){
   object.position.copy(positions[key]).sub(origin).multiplyScalar(scale);
@@ -233,20 +234,20 @@ function updateUI(t){
  photos?.update(t,progress);
  const d=positions.voyager.distanceTo(positions.earth)*AU;
  $('date').textContent=dateFormat.format(new Date(t)).replaceAll('.','').replaceAll(' de ',' ');$('date').dateTime=new Date(t).toISOString();
- $('end-distance').textContent=`${number.format(Math.round(d))} km from Earth`;
+ $('end-distance').textContent=`${number.format(Math.round(d))} ${tr('km from Earth')}`;
  $('distance').textContent=number.format(Math.round(d));$('timeline').value=progress*1000;$('progress').style.width=`${progress*100}%`;
- $('timeline').setAttribute('aria-valuetext',`${$('date').textContent}, ${$('distance').textContent} kilometres from Earth`);
+ $('timeline').setAttribute('aria-valuetext',`${$('date').textContent}, ${$('distance').textContent} ${tr('kilometres from Earth')}`);
  const current=EVENTS.findLastIndex(e=>progress>=e.p-.00001);document.querySelectorAll('.milestone').forEach((el,i)=>el.classList.toggle('active',i===current));
  updateTimelineDate();
  const finished=progress>=1;$('journey-end').classList.toggle('visible',finished);$('journey-end').setAttribute('aria-hidden',String(!finished));
 }
 function go(p){progress=THREE.MathUtils.clamp(p,0,1);autoCamera=true;lastUI=0;updateWorld(timeAt(progress),.016,true);updateUI(timeAt(progress));if(progress>=1)setPlaying(false);else if(!playing)showResume(true);}
 function showResume(on){const b=$('resume');if(on&&$('loading'))return;if(on){if(!b.hidden)return;b.hidden=false;requestAnimationFrame(()=>b.classList.add('visible'));}else{b.classList.remove('visible');b.hidden=true;}}
-function setPlaying(on){playing=on;showResume(!on&&progress<1);if(on)autoCamera=true;$('play').setAttribute('aria-label',on?'Pause journey':'Play journey');$('play').title=on?'Pause':'Play';$('play-icon').innerHTML=on?'<path d="M5 4h3v12H5zM12 4h3v12h-3z"/>':'<path d="M7 4l9 6-9 6z"/>';}
+function setPlaying(on){playing=on;showResume(!on&&progress<1);if(on)autoCamera=true;$('play').setAttribute('aria-label',tr(on?'Pause journey':'Play journey'));$('play').title=tr(on?'Pause':'Play');$('play-icon').innerHTML=on?'<path d="M5 4h3v12H5zM12 4h3v12h-3z"/>':'<path d="M7 4l9 6-9 6z"/>';}
 function closeSpeedMenu(restoreFocus=false){$('speed-menu').hidden=true;$('speed').setAttribute('aria-expanded','false');if(restoreFocus)$('speed').focus();}
 function setSpeed(value){
  if(![.25,.5,1,2,4].includes(value))return;
- playbackSpeed=value;const text=`${String(value)}×`;$('speed').textContent=text;$('speed').setAttribute('aria-label',`Playback speed: ${text}`);
+ playbackSpeed=value;const text=`${String(value)}×`;$('speed').textContent=text;$('speed').setAttribute('aria-label',`${tr('Playback speed')}: ${text}`);
  document.querySelectorAll('[data-speed]').forEach(button=>button.setAttribute('aria-checked',String(Number(button.dataset.speed)===value)));closeSpeedMenu(true);
 }
 function updatePostProcessing(now,dt){
@@ -285,7 +286,7 @@ function setupUI(){
  });
  document.addEventListener('pointerdown',e=>{if(!$('speed-control').contains(e.target))closeSpeedMenu();});
  $('speed-control').addEventListener('focusout',e=>{if(!$('speed-control').contains(e.relatedTarget))closeSpeedMenu();});
- EVENTS.forEach(event=>{const b=document.createElement('button');b.className='milestone';b.style.left=`${event.p*100}%`;b.dataset.progress=event.p;b.setAttribute('aria-label',`${event.name}, ${dateFormat.format(new Date(event.time))}`);b.title=event.name;const year=document.createElement('span');year.className='milestone-year';year.textContent=event.year;year.setAttribute('aria-hidden','true');b.append(year);b.onclick=()=>{setPlaying(false);go(event.p);};b.onfocus=()=>{timelinePreview=event.p;updateTimelineDate();};$('milestones').append(b);});
+ EVENTS.forEach(event=>{const b=document.createElement('button');b.className='milestone';b.style.left=`${event.p*100}%`;b.dataset.progress=event.p;b.setAttribute('aria-label',`${tr(event.name)}, ${dateFormat.format(new Date(event.time))}`);b.title=tr(event.name);const year=document.createElement('span');year.className='milestone-year';year.textContent=event.year;year.setAttribute('aria-hidden','true');b.append(year);b.onclick=()=>{setPlaying(false);go(event.p);};b.onfocus=()=>{timelinePreview=event.p;updateTimelineDate();};$('milestones').append(b);});
  $('timeline-wrap').addEventListener('pointermove',e=>{if(e.pointerType==='touch'||mobile())return;const rect=$('timeline-wrap').getBoundingClientRect(),milestone=e.target.closest('.milestone');timelinePreview=milestone?Number(milestone.dataset.progress):THREE.MathUtils.clamp((e.clientX-rect.left)/rect.width,0,1);updateTimelineDate();});
  $('timeline-wrap').addEventListener('pointerleave',()=>{timelinePreview=null;updateTimelineDate();});
  $('timeline-wrap').addEventListener('focusout',e=>{if(!$('timeline-wrap').contains(e.relatedTarget)){timelinePreview=null;updateTimelineDate();}});
@@ -304,12 +305,12 @@ function animate(now){
 }
 async function init(){
  try{
-  setupScene();$('loading-progress').style.width='14%';const response=await fetch('./data/ephemeris.json');if(!response.ok)throw new Error('The trajectory data could not be loaded.');data=await response.json();
+  setupScene();$('loading-progress').style.width='14%';const response=await fetch('./data/ephemeris.json');if(!response.ok)throw new Error(tr('The trajectory data could not be loaded.'));data=await response.json();
   const end=setJourneyEnd(Date.now(),Math.min(data.bodies.voyager.at(-1)[0],data.bodies.earth.at(-1)[0]));
   let n=0;const textures=['earth.jpg','earth-night.jpg','earth-clouds.jpg','jupiter.jpg','saturn.jpg','saturn-ring.png','mercury.jpg','venus.jpg','mars.jpg','uranus.jpg','neptune.jpg','milky-way-eso-6k.jpg'];
   await Promise.all(textures.map(async name=>{cache[name]=await loadTexture(name,name!=='earth-clouds.jpg');n++;$('loading-progress').style.width=`${15+n/textures.length*65}%`;}));
   setupWorld();await setupShip();setupUI();ready=true;go(0);$('loading-progress').style.width='100%';$('loading').classList.add('done');setTimeout(()=>{if($('loading'))$('loading').remove();setPlaying(!reducedMotion);},900);animate(performance.now());
   window.voyagerDiagnostics=()=>({ready,date:new Date(timeAt(progress)).toISOString(),distanceKm:positions.voyager.distanceTo(positions.earth)*AU,progress,playing,playbackSpeed,automaticRate:travelRate(progress),overview,postProcessing:{msaa:composer.renderTarget1.samples,bloom:bloomPass.strength,cinemaGrade:true},trajectoryVertices:trajectoryPositions.length,cameraDistanceAU:pose.distance,cameraAnchor:pose.body,source:data.metadata});
- }catch(error){console.error(error);$('loading').style.display='none';$('error').hidden=false;$('error-detail').textContent=/WebGL/i.test(error.message)?'WebGL is unavailable. Open this demo in a browser with 3D graphics enabled.':error.message;}
+ }catch(error){console.error(error);$('loading').style.display='none';$('error').hidden=false;$('error-detail').textContent=/WebGL/i.test(error.message)?tr('WebGL is unavailable. Open this demo in a browser with 3D graphics enabled.'):error.message;}
 }
 init();

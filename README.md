@@ -6,7 +6,7 @@ It launched on 5 September 1977. It took forty-nine years to get that far.
 
 This project tells that story in under a minute.
 
-**[Watch it live →](https://franpiaggio.github.io/voyager-one-light-day/)**
+**[Watch it live →](https://franpiaggio.github.io/voyager-one-light-day/)** · **[En español →](https://franpiaggio.github.io/voyager-one-light-day/es/)**
 
 ## The idea
 
@@ -54,6 +54,8 @@ dist/
   cinema-post.js      post-processing pass
   ship-presentation.js  opening shot staging
   credits.html        sources and licenses
+  i18n.js             Spanish strings (UI language follows <html lang>)
+  es/                 Spanish edition: same modules, served from ../ via <base>
   data/               ephemeris and photo catalog
   assets/             textures, model, photos, fonts
 scripts/

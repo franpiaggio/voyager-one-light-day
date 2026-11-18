@@ -1,9 +1,10 @@
 // Capture dates from the linked JPL records, not their publication dates.
 // Records give calendar days only; trigger at the start of that UTC day.
 import { CATALOG } from './photo-catalog.js';
+import { t,localizePhoto,LOCALE } from './i18n.js';
 export const PHOTO_GROUPS=[{name:'Earth',p:.13},{name:'Jupiter',p:.4},{name:'Saturn',p:.66},{name:'Portrait',p:.85}];
 const END={Earth:.27,Jupiter:.52,Saturn:.81,Portrait:.985};
-export const PHOTOS=CATALOG.map(photo=>({...photo,time:Date.parse(photo.capturedAt??(photo.date+'T00:00:00Z')),end:END[photo.group],src:`./assets/photos/${photo.id}.jpg`,thumb:`./assets/photos/${photo.id}-thumb.jpg`}));
+export const PHOTOS=CATALOG.map(photo=>({...localizePhoto(photo),time:Date.parse(photo.capturedAt??(photo.date+'T00:00:00Z')),end:END[photo.group],src:`./assets/photos/${photo.id}.jpg`,thumb:`./assets/photos/${photo.id}-thumb.jpg`}));
 
 export function photoProgress(time,timeAt){
  let low=0,high=1;
@@ -29,13 +30,13 @@ export function activePhoto(time,progress,schedule){
 
 export function setupPhotos({timeAt,travelRate,setPlaying}){
  const $=id=>document.getElementById(id),dialog=$('photo-gallery'),card=$('photo-card');
- const format=new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});
+ const format=new Intl.DateTimeFormat(LOCALE,{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});
  const schedule=photoSchedule(timeAt,travelRate);
  let active=-1,selected=0,opener=null,filter='All';
  const visibleIndices=()=>PHOTOS.map((photo,i)=>filter==='All'||photo.group===filter?i:-1).filter(i=>i>=0);
  function step(direction){const indices=visibleIndices();select(indices[(indices.indexOf(selected)+direction+indices.length)%indices.length]);}
- function setFilter(group){filter=group;[...$('photo-strip').children].forEach((button,i)=>button.hidden=filter!=='All'&&PHOTOS[i].group!==filter);[...$('photo-groups').children].forEach(button=>button.setAttribute('aria-pressed',String(button.textContent===filter)));if(!visibleIndices().includes(selected))select(visibleIndices()[0]);}
- const date=photo=>format.format(new Date(photo.time));
+ function setFilter(group){filter=group;[...$('photo-strip').children].forEach((button,i)=>button.hidden=filter!=='All'&&PHOTOS[i].group!==filter);[...$('photo-groups').children].forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.group===filter)));if(!visibleIndices().includes(selected))select(visibleIndices()[0]);}
+ const date=photo=>format.format(new Date(photo.time)).replaceAll('.','').replaceAll(' de ',' ');
  const image=(photo,thumb=false)=>{const img=document.createElement('img');img.src=thumb?photo.thumb:photo.src;img.alt=photo.alt;img.decoding='async';return img;};
  function select(index){
   selected=(index+PHOTOS.length)%PHOTOS.length;const photo=PHOTOS[selected];
@@ -62,18 +63,18 @@ export function setupPhotos({timeAt,travelRate,setPlaying}){
  PHOTOS.forEach((photo,index)=>{
   const button=document.createElement('button');button.type='button';button.append(image(photo,true));button.setAttribute('aria-label',`${photo.body}, ${date(photo)}: ${photo.title}`);button.onclick=()=>select(index);$('photo-strip').append(button);
  });
- $('photos-open').setAttribute('aria-label',`View all ${PHOTOS.length} Voyager photographs`);
- for(const group of ['All',...PHOTO_GROUPS.map(g=>g.name)]){const button=document.createElement('button');button.textContent=group;button.onclick=()=>setFilter(group);button.setAttribute('aria-pressed',String(group===filter));$('photo-groups').append(button);}
+ $('photos-open').setAttribute('aria-label',t('View all photographs',PHOTOS.length));
+ for(const group of ['All',...PHOTO_GROUPS.map(g=>g.name)]){const button=document.createElement('button');button.textContent=t(group);button.dataset.group=group;button.onclick=()=>setFilter(group);button.setAttribute('aria-pressed',String(group===filter));$('photo-groups').append(button);}
  // Four encounter groups keep the expanded archive off the main canvas.
  for(const {name:body,p} of PHOTO_GROUPS){
   const index=PHOTOS.findIndex(photo=>photo.group===body),photo=PHOTOS[index],total=PHOTOS.filter(photo=>photo.group===body).length;
   const button=document.createElement('button');button.type='button';button.className='photo-marker';button.style.left=`${p*100}%`;
   button.append(image(photo,true));const count=document.createElement('span');count.textContent=total;button.append(count);
-  button.setAttribute('aria-label',`${body}: view ${total} Voyager photograph${total===1?'':'s'}`);button.title=`${body} photographs`;button.onclick=e=>open(index,e.currentTarget,body);$('photo-markers').append(button);
+  button.setAttribute('aria-label',t('View group',t(body),total));button.title=t('Group photographs',t(body));button.onclick=e=>open(index,e.currentTarget,body);$('photo-markers').append(button);
  }
  return {update(time,progress){
   const next=activePhoto(time,progress,schedule);if(next===active)return;active=next;
   card.hidden=active<0;
-  if(active>=0){const photo=PHOTOS[active];$('photo-card-image').replaceChildren(image(photo,true));$('photo-card-date').textContent=date(photo);$('photo-card-date').dateTime=photo.date;$('photo-card-credit').textContent=photo.credit+' ↗';card.setAttribute('aria-label',`View photograph: ${photo.body}, ${date(photo)}`);}
+  if(active>=0){const photo=PHOTOS[active];$('photo-card-image').replaceChildren(image(photo,true));$('photo-card-date').textContent=date(photo);$('photo-card-date').dateTime=photo.date;$('photo-card-credit').textContent=photo.credit+' ↗';card.setAttribute('aria-label',t('View photograph',`${photo.body}, ${date(photo)}`));}
  }};
 }
